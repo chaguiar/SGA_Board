@@ -88,12 +88,15 @@ PEOPLE.forEach(function(p, i) {
 
 function goTo(idx) {
   current = (idx + PEOPLE.length) % PEOPLE.length;
-  const cw = 264;
-  const wrapperW = track.parentElement.offsetWidth;
-  const offset = current * cw - (wrapperW / 2 - 120);
-  track.style.transform = 'translateX(-' + Math.max(0, offset) + 'px)';
-  document.querySelectorAll('.card').forEach((c, i) => c.classList.toggle('active', i === current));
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  var cw = 264;
+  var wrapperW = track.parentElement.offsetWidth;
+  var totalWidth = PEOPLE.length * cw;
+  var maxOffset = Math.max(0, totalWidth - wrapperW);
+  var offset = current * cw - (wrapperW / 2 - 120);
+  offset = Math.min(Math.max(0, offset), maxOffset);
+  track.style.transform = "translateX(-" + offset + "px)";
+  document.querySelectorAll(".card").forEach(function(c, i) { c.classList.toggle("active", i === current); });
+  document.querySelectorAll(".dot").forEach(function(d, i) { d.classList.toggle("active", i === current); });
 }
 
 function move(dir) { goTo(current + dir); }
