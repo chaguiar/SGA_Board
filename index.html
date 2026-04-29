@@ -47,14 +47,32 @@ const track = document.getElementById('track');
 const dotsEl = document.getElementById('dots');
 
 function copyEmail(btn, email) {
-  navigator.clipboard.writeText(email).then(function() {
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = email;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
     btn.textContent = "Copied!";
     btn.classList.add("copied");
     setTimeout(function() {
       btn.textContent = email;
       btn.classList.remove("copied");
     }, 2000);
-  });
+  } catch(e) {
+    navigator.clipboard.writeText(email).then(function() {
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(function() {
+        btn.textContent = email;
+        btn.classList.remove("copied");
+      }, 2000);
+    });
+  }
 }
 
 PEOPLE.forEach(function(p, i) {
